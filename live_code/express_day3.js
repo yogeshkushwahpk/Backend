@@ -64,8 +64,33 @@ app.post("/users", (req, res) => {
   });
 
 });
+// *********************************
+
+// Get Single User
+app.get("/users/:id", (req, res) => {
+
+  // Customer ne kaunsi ID maangi?
+  const userId = Number(req.params.id);
+
+  // Register me customer ko search karo
+  const user = users.find((user) => user.id === userId);
+
+  // Customer nahi mila
+  if (!user) {
+    return res.send({
+      msg: "User Not Found With this id"
+    });
+  }
+
+  // Customer mil gaya
+  res.send({
+    success: true,
+    data: user
+  });
+});
 
 
+// ***************************
 // Get Single User
 app.get("/users/:id", (req, res) => {
 
@@ -118,6 +143,7 @@ app.put("/users/:id", (req, res) => {
 
 });
 
+// ******************************
 
 // DELETE - Delete User
 app.delete("/users/:id", (req, res) => {
@@ -139,6 +165,30 @@ app.delete("/users/:id", (req, res) => {
   });
 
 });
+
+
+// DELETE - Delete User
+app.delete("/users/:id", (req, res) => {
+
+  // ID lo
+  const userId = Number(req.params.id);
+
+  // User ki position dhoondo
+  const index = users.findIndex((user) => user.id === userId);
+
+  // User delete karo
+  const deletedUser = users.splice(index, 1);
+
+  // Response bhejo
+  res.status(200).json({
+    success: true,
+    message: "User deleted successfully",
+    data: deletedUser
+  });
+});
+
+
+// *****************************
 
 
 // PATCH - UPDATE PART OF USER
